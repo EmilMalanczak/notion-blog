@@ -5,7 +5,6 @@
  * for optional depenencies.
  */
 import { parsePageId } from 'notion-utils'
-import { PostHogConfig } from 'posthog-js'
 
 import { getEnv, getSiteConfig } from './get-config-value'
 import { NavigationLink } from './site-config'
@@ -55,23 +54,9 @@ export const language: string = getSiteConfig('language', 'en')
 
 // social accounts
 export const twitter: string | null = getSiteConfig('twitter', null)
-export const mastodon: string | null = getSiteConfig('mastodon', null)
-export const github: string | null = getSiteConfig('github', null)
 export const youtube: string | null = getSiteConfig('youtube', null)
 export const linkedin: string | null = getSiteConfig('linkedin', null)
 export const newsletter: string | null = getSiteConfig('newsletter', null)
-export const zhihu: string | null = getSiteConfig('zhihu', null)
-
-export const getMastodonHandle = (): string | null => {
-  if (!mastodon) {
-    return null
-  }
-
-  // Since Mastodon is decentralized, handles include the instance domain name.
-  // e.g. @example@mastodon.social
-  const url = new URL(mastodon)
-  return `${url.pathname.slice(1)}@${url.hostname}`
-}
 
 // default notion values for site-wide consistency (optional; may be overridden on a per-page basis)
 export const defaultPageIcon: string | null = getSiteConfig(
@@ -112,28 +97,6 @@ export const navigationLinks: Array<NavigationLink | null> = getSiteConfig(
 // Optional site search
 export const isSearchEnabled: boolean = getSiteConfig('isSearchEnabled', true)
 
-// ----------------------------------------------------------------------------
-
-// Optional redis instance for persisting preview images
-export const isRedisEnabled: boolean =
-  getSiteConfig('isRedisEnabled', false) || !!getEnv('REDIS_ENABLED', null)
-
-// (if you want to enable redis, only REDIS_HOST and REDIS_PASSWORD are required)
-// we recommend that you store these in a local `.env` file
-export const redisHost: string | null = getEnv('REDIS_HOST', null)
-export const redisPassword: string | null = getEnv('REDIS_PASSWORD', null)
-export const redisUser: string = getEnv('REDIS_USER', 'default')
-export const redisUrl = getEnv(
-  'REDIS_URL',
-  `redis://${redisUser}:${redisPassword}@${redisHost}`
-)
-export const redisNamespace: string | null = getEnv(
-  'REDIS_NAMESPACE',
-  'preview-images'
-)
-
-// ----------------------------------------------------------------------------
-
 export const isServer = typeof window === 'undefined'
 
 export const port = getEnv('PORT', '3000')
@@ -158,18 +121,6 @@ export const site: Site = {
   rootNotionPageId,
   rootNotionSpaceId,
   description
-}
-
-export const fathomId = isDev ? null : process.env.NEXT_PUBLIC_FATHOM_ID
-export const fathomConfig = fathomId
-  ? {
-      excludedDomains: ['localhost', 'localhost:3000']
-    }
-  : undefined
-
-export const posthogId = process.env.NEXT_PUBLIC_POSTHOG_ID
-export const posthogConfig: Partial<PostHogConfig> = {
-  api_host: 'https://app.posthog.com'
 }
 
 function cleanPageUrlMap(

@@ -22,7 +22,10 @@ const siteConfig: SiteConfig = {
   ...siteConfigOverrides
 }
 
-export function getSiteConfig<T>(key: string, defaultValue?: T): T {
+export function getSiteConfig<T extends keyof SiteConfig>(
+  key: T,
+  defaultValue?: SiteConfig[T]
+): SiteConfig[T] {
   const value = siteConfig[key]
 
   if (value !== undefined) {
