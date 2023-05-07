@@ -88,10 +88,10 @@ export const description: string = getSiteConfig('description', 'Notion Blog') a
 export const language: string = getSiteConfig('language', 'en') as string;
 
 // social accounts
-export const twitter: string | undefined = getSiteConfig('twitter', undefined) as string;
-export const youtube: string | undefined = getSiteConfig('youtube', undefined) as string;
-export const linkedin: string | undefined = getSiteConfig('linkedin', undefined) as string;
-export const newsletter: string | undefined = getSiteConfig('newsletter', undefined) as string;
+export const twitter: string | undefined = getSiteConfig('twitter', null) as string;
+export const youtube: string | undefined = getSiteConfig('youtube', null) as string;
+export const linkedin: string | undefined = getSiteConfig('linkedin', null) as string;
+export const newsletter: string | undefined = getSiteConfig('newsletter', null) as string;
 
 // default notion values for site-wide consistency (optional; may be overridden on a per-page basis)
 export const defaultPageIcon: string | null = getSiteConfig('defaultPageIcon', null) as string;

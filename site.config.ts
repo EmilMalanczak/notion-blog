@@ -3,10 +3,9 @@ import { siteConfig } from './lib/site-config';
 export default siteConfig({
     // the site's root Notion page (required)
     rootNotionPageId: '4bbcabdae4ec4cada76dfaf7ab334661',
-
     // if you want to restrict pages to a single notion workspace (optional)
     // (this should be a Notion ID; see the docs for how to extract this)
-    // rootNotionSpaceId: null,
+    rootNotionSpaceId: null,
 
     // basic site info (required)
     name: 'CCH Blog',

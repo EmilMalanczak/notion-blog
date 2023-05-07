@@ -24,7 +24,7 @@ const siteConfig: SiteConfig = {
     ...siteConfigOverrides
 };
 
-export function getSiteConfig<T extends keyof SiteConfig>(key: T, defaultValue?: SiteConfig[T]): SiteConfig[T] {
+export function getSiteConfig<T extends keyof SiteConfig>(key: T, defaultValue?: SiteConfig[T] | null): SiteConfig[T] {
     const value = siteConfig[key];
 
     if (value !== undefined) {
@@ -32,6 +32,7 @@ export function getSiteConfig<T extends keyof SiteConfig>(key: T, defaultValue?:
     }
 
     if (defaultValue !== undefined) {
+        // @ts-ignore
         return defaultValue;
     }
 

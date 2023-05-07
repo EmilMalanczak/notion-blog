@@ -8,7 +8,7 @@ export interface NavigationLink {
 
 export interface SiteConfig {
     rootNotionPageId: string;
-    rootNotionSpaceId?: string;
+    rootNotionSpaceId?: string | null;
 
     name: string;
     domain: string;
