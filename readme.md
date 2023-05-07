@@ -18,23 +18,23 @@ It uses Notion as a CMS, [react-notion-x](https://github.com/NotionX/react-notio
 
 ## Features
 
-- Setup only takes a few minutes ([single config file](./site.config.ts)) 💪
-- Robust support for Notion content via [react-notion-x](https://github.com/NotionX/react-notion-x)
-- Built using Next.js, TS, and React
-- Excellent page speeds
-- Smooth image previews
-- Automatic social images
-- Automatic pretty URLs
-- Automatic table of contents
-- Full support for dark mode
-- Quick search via CMD+K / CMD+P
-- Responsive for different devices
-- Optimized for Next.js and Vercel
+-   Setup only takes a few minutes ([single config file](./site.config.ts)) 💪
+-   Robust support for Notion content via [react-notion-x](https://github.com/NotionX/react-notion-x)
+-   Built using Next.js, TS, and React
+-   Excellent page speeds
+-   Smooth image previews
+-   Automatic social images
+-   Automatic pretty URLs
+-   Automatic table of contents
+-   Full support for dark mode
+-   Quick search via CMD+K / CMD+P
+-   Responsive for different devices
+-   Optimized for Next.js and Vercel
 
 ## Demos
 
-- [Default demo](https://nextjs-notion-starter-kit.transitivebullsh.it) - Deployed from the `main` branch
-- [My site](https://transitivebullsh.it) - Deployed from the `transitive-bullshit` branch
+-   [Default demo](https://nextjs-notion-starter-kit.transitivebullsh.it) - Deployed from the `main` branch
+-   [My site](https://transitivebullsh.it) - Deployed from the `transitive-bullshit` branch
 
 ## Setup
 
@@ -107,7 +107,7 @@ Every notion block gets its own unique classname, so you can target individual b
 
 ```css
 .notion-block-260baa77f1e1428b97fb14ac99c7c385 {
-  display: none;
+    display: none;
 }
 ```
 

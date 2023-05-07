@@ -1,76 +1,71 @@
-import got from 'got'
-import lqip from 'lqip-modern'
-import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types'
-import { getPageImageUrls, normalizeUrl } from 'notion-utils'
-import pMap from 'p-map'
-import pMemoize from 'p-memoize'
+import got from 'got';
+import lqip from 'lqip-modern';
+import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types';
+import { getPageImageUrls, normalizeUrl } from 'notion-utils';
+import pMap from 'p-map';
+import pMemoize from 'p-memoize';
 
-import { defaultPageCover, defaultPageIcon } from './config'
-import { db } from './db'
-import { mapImageUrl } from './map-image-url'
+import { defaultPageCover, defaultPageIcon } from './config';
+import { db } from './db';
+import { mapImageUrl } from './map-image-url';
 
-export async function getPreviewImageMap(
-  recordMap: ExtendedRecordMap
-): Promise<PreviewImageMap> {
-  const urls: string[] = getPageImageUrls(recordMap, {
-    mapImageUrl
-  })
-    .concat([defaultPageIcon, defaultPageCover])
-    .filter(Boolean)
+async function createPreviewImage(url: string, { cacheKey }: { cacheKey: string }): Promise<PreviewImage | null> {
+    try {
+        try {
+            const cachedPreviewImage = await db.get(cacheKey);
+            if (cachedPreviewImage) {
+                return cachedPreviewImage;
+            }
+        } catch (err: any) {
+            // ignore redis errors
+            console.warn(`redis error get "${cacheKey}"`, err.message);
+        }
 
-  const previewImagesMap = Object.fromEntries(
-    await pMap(
-      urls,
-      async (url) => {
-        const cacheKey = normalizeUrl(url)
-        return [cacheKey, await getPreviewImage(url, { cacheKey })]
-      },
-      {
-        concurrency: 8
-      }
-    )
-  )
+        const { body } = await got(url, { responseType: 'buffer' });
+        const result = await lqip(body);
+        console.log('lqip', { ...result.metadata, url, cacheKey });
 
-  return previewImagesMap
+        const previewImage = {
+            originalWidth: result.metadata.originalWidth,
+            originalHeight: result.metadata.originalHeight,
+            dataURIBase64: result.metadata.dataURIBase64
+        };
+
+        try {
+            await db.set(cacheKey, previewImage);
+        } catch (err: any) {
+            // ignore redis errors
+            console.warn(`redis error set "${cacheKey}"`, err.message);
+        }
+
+        return previewImage;
+    } catch (err: any) {
+        console.warn('failed to create preview image', url, err.message);
+        return null;
+    }
 }
 
-async function createPreviewImage(
-  url: string,
-  { cacheKey }: { cacheKey: string }
-): Promise<PreviewImage | null> {
-  try {
-    try {
-      const cachedPreviewImage = await db.get(cacheKey)
-      if (cachedPreviewImage) {
-        return cachedPreviewImage
-      }
-    } catch (err) {
-      // ignore redis errors
-      console.warn(`redis error get "${cacheKey}"`, err.message)
-    }
+export const getPreviewImage = pMemoize(createPreviewImage);
 
-    const { body } = await got(url, { responseType: 'buffer' })
-    const result = await lqip(body)
-    console.log('lqip', { ...result.metadata, url, cacheKey })
+export async function getPreviewImageMap(recordMap: ExtendedRecordMap): Promise<PreviewImageMap> {
+    const urls: string[] = getPageImageUrls(recordMap, {
+        mapImageUrl
+    })
+        .concat([defaultPageIcon as string, defaultPageCover as string])
+        .filter(Boolean) as string[];
 
-    const previewImage = {
-      originalWidth: result.metadata.originalWidth,
-      originalHeight: result.metadata.originalHeight,
-      dataURIBase64: result.metadata.dataURIBase64
-    }
+    const previewImagesMap = Object.fromEntries(
+        await pMap(
+            urls,
+            async (url) => {
+                const cacheKey = normalizeUrl(url);
+                return [cacheKey, await getPreviewImage(url, { cacheKey })];
+            },
+            {
+                concurrency: 8
+            }
+        )
+    );
 
-    try {
-      await db.set(cacheKey, previewImage)
-    } catch (err) {
-      // ignore redis errors
-      console.warn(`redis error set "${cacheKey}"`, err.message)
-    }
-
-    return previewImage
-  } catch (err) {
-    console.warn('failed to create preview image', url, err.message)
-    return null
-  }
+    return previewImagesMap;
 }
-
-export const getPreviewImage = pMemoize(createPreviewImage)

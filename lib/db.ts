@@ -1,5 +1,5 @@
-import Keyv from '@keyvhq/core'
+import Keyv from '@keyvhq/core';
 
-const db: Keyv = new Keyv()
+const db: Keyv = new Keyv();
 
-export { db }
+export { db };
