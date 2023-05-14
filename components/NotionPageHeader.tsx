@@ -4,10 +4,11 @@ import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline';
 import cs from 'classnames';
 import * as types from 'notion-types';
 import * as React from 'react';
-import { Breadcrumbs, Header, Search, useNotionContext } from 'react-notion-x';
 
 import { isSearchEnabled, navigationLinks, navigationStyle } from '@/lib/config';
 import { useDarkMode } from '@/lib/use-dark-mode';
+import { Breadcrumbs, Header, Search } from 'renderer/components/header';
+import { useNotionContext } from 'renderer/context-root';
 
 import styles from './styles.module.css';
 
@@ -18,7 +19,6 @@ const ToggleThemeButton = () => {
     React.useEffect(() => {
         setHasMounted(true);
     }, []);
-
     const onToggleTheme = React.useCallback(() => {
         toggleDarkMode();
     }, [toggleDarkMode]);

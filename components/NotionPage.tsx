@@ -1,13 +1,10 @@
 import cs from 'classnames';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PageBlock } from 'notion-types';
-import { formatDate, getBlockTitle, getPageProperty } from 'notion-utils';
 import * as React from 'react';
 import BodyClassName from 'react-body-classname';
-import { NotionRenderer } from 'react-notion-x';
 import TweetEmbed from 'react-tweet-embed';
 import { useSearchParam } from 'react-use';
 
@@ -17,6 +14,15 @@ import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url';
 import { searchNotion } from '@/lib/search-notion';
 import * as types from '@/lib/types';
 import { useDarkMode } from '@/lib/use-dark-mode';
+import { NotionRenderer } from 'renderer/renderer';
+import { Code } from 'renderer/third-party/code';
+import { Collection } from 'renderer/third-party/collection';
+import { Equation } from 'renderer/third-party/equation';
+import { Modal } from 'renderer/third-party/modal';
+import { Pdf } from 'renderer/third-party/pdf';
+import { formatDate } from 'renderer/utils/format-date';
+import { getBlockTitle } from 'renderer/utils/get-block-title';
+import { getPageProperty } from 'renderer/utils/get-page-property';
 
 import { Footer } from './Footer';
 import { Loading } from './Loading';
@@ -29,94 +35,6 @@ import styles from './styles.module.css';
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
 // -----------------------------------------------------------------------------
-
-const Code = dynamic(() =>
-    import('react-notion-x/build/third-party/code').then(async (m) => {
-        // add / remove any prism syntaxes here
-        await Promise.all([
-            // @ts-ignore
-            import('prismjs/components/prism-markup-templating.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-markup.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-bash.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-c.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-cpp.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-csharp.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-docker.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-java.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-js-templates.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-coffeescript.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-diff.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-git.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-go.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-graphql.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-handlebars.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-less.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-makefile.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-markdown.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-objectivec.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-ocaml.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-python.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-reason.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-rust.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-sass.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-scss.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-solidity.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-sql.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-stylus.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-swift.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-wasm.js'),
-            // @ts-ignore
-            import('prismjs/components/prism-yaml.js')
-        ]);
-
-        return m.Code;
-    })
-);
-
-const Collection = dynamic(() => import('react-notion-x/build/third-party/collection').then((m) => m.Collection));
-const Equation = dynamic(() => import('react-notion-x/build/third-party/equation').then((m) => m.Equation));
-const Pdf = dynamic(() => import('react-notion-x/build/third-party/pdf').then((m) => m.Pdf), {
-    ssr: false
-});
-const Modal = dynamic(
-    () =>
-        import('react-notion-x/build/third-party/modal').then((m) => {
-            m.Modal.setAppElement('.notion-viewport');
-            return m.Modal;
-        }),
-    {
-        ssr: false
-    }
-);
 
 const Tweet = ({ id }: { id: string }) => <TweetEmbed tweetId={id} />;
 
@@ -273,9 +191,11 @@ export const NotionPage: React.FC<Required<types.PageProps>> = ({ site, recordMa
                 mapPageUrl={siteMapPageUrl}
                 // @ts-ignore
                 mapImageUrl={mapImageUrl}
-                searchNotion={config.isSearchEnabled ? searchNotion : undefined}
+                searchNotion={config.isSearchEnabled ? searchNotion : null}
                 pageAside={pageAside}
                 footer={footer}
+                onHideSearch={null}
+                isShowingSearch={false}
             />
         </>
     );
