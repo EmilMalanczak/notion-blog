@@ -21,6 +21,12 @@ export const CollectionRow: React.FC<{
         return null;
     }
 
+    console.log({
+        block,
+        schemas,
+        collection
+    });
+
     let propertyIds = Object.keys(schemas).filter((id) => id !== 'title');
 
     // filter properties based on visibility

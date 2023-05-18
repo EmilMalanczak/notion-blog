@@ -261,7 +261,8 @@ export const Block: React.FC<BlockProps> = (props) => {
                     className={cs('notion-page-link', blockColor && `notion-${blockColor}`, blockId)}
                     href={mapPageUrl(block.id)}
                 >
-                    <PageTitle block={block} />
+                    {/* <PageTitle block={block} /> <br /> */}
+                    link to {mapPageUrl(block.id)}
                 </components.PageLink>
             );
 
@@ -507,6 +508,10 @@ export const Block: React.FC<BlockProps> = (props) => {
         }
 
         case 'collection_view':
+            console.log({
+                collectionView: block
+            });
+
             return <components.Collection block={block} className={blockId} ctx={ctx} />;
 
         case 'callout':

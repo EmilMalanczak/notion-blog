@@ -134,6 +134,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
         linkProperties[0].length > 0 &&
         linkProperties[0][0].length > 0
     ) {
+        // TODO: remove this
         // eslint-disable-next-line prefer-destructuring
         url = linkProperties[0][0][0];
     }
