@@ -9,6 +9,7 @@ import { CollectionViewProps } from '../types';
 
 export const CollectionViewImpl: React.FC<CollectionViewProps> = (props) => {
     const { collectionView } = props;
+    console.log('collection view', collectionView);
 
     switch (collectionView.type) {
         case 'table':

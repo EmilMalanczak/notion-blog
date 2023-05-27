@@ -29,7 +29,7 @@ export const Breadcrumbs: React.FC<{
     }, [recordMap, block.id, rootOnly]);
 
     return (
-        <div className="breadcrumbs" key="breadcrumbs">
+        <div key="breadcrumbs">
             {breadcrumbs.map((breadcrumb, index: number) => {
                 if (!breadcrumb) {
                     return null;

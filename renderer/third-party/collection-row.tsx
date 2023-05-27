@@ -2,6 +2,7 @@ import { PageBlock } from 'notion-types';
 import * as React from 'react';
 
 import { useNotionContext } from 'renderer/context-root';
+import { useBlogStore } from 'store/blog';
 
 import { CollectionColumnTitle } from './collection-column-title';
 import { Property } from './property';
@@ -16,6 +17,7 @@ export const CollectionRow: React.FC<{
     const collectionId = block.parent_id;
     const collection = recordMap.collection[collectionId]?.value;
     const schemas = collection?.schema;
+    const setTags = useBlogStore((state) => state.setTags);
 
     if (!collection || !schemas) {
         return null;
@@ -59,6 +61,15 @@ export const CollectionRow: React.FC<{
             <div className="notion-collection-row-body">
                 {propertyIds.map((propertyId) => {
                     const schema = schemas[propertyId];
+                    // console.log('SCHEMA', schema);
+
+                    if (schema.name === 'Tags') {
+                        const tags = schema.options?.map((option) => option.value);
+
+                        console.log('TAGS', tags);
+
+                        setTags(tags || []);
+                    }
 
                     return (
                         <div className="notion-collection-row-property" key={propertyId}>

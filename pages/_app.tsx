@@ -1,13 +1,17 @@
 // global styles shared across the entire site
+import { MantineProvider } from '@mantine/core';
+
 import { bootstrap } from '@/lib/bootstrap-client';
 import { isServer } from '@/lib/config';
 
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css';
+// eslint-disable-next-line import/order
 import type { AppProps } from 'next/app';
 
 // used for code syntax highlighting (optional)
 import 'prismjs/themes/prism-coy.css';
+// eslint-disable-next-line import/order
 import * as React from 'react';
 // core styles shared by all of react-notion-x (required)
 import 'renderer/styles.css';
@@ -23,6 +27,17 @@ if (!isServer) {
     bootstrap();
 }
 
-const App = ({ Component, pageProps }: AppProps) => <Component {...pageProps} />;
+const App = ({ Component, pageProps }: AppProps) => (
+    <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+            /** Put your mantine theme override here */
+            colorScheme: 'light'
+        }}
+    >
+        <Component {...pageProps} />
+    </MantineProvider>
+);
 
 export default App;

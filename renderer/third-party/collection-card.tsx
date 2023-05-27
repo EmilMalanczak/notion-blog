@@ -144,7 +144,6 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
             {(coverContent || cover?.type !== 'none') && (
                 <div className="notion-collection-card-cover">{coverContent}</div>
             )}
-
             <div className="notion-collection-card-body">
                 <div className="notion-collection-card-property">
                     <Property

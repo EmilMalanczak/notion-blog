@@ -153,7 +153,8 @@ export const Block: React.FC<BlockProps> = (props) => {
                                 {header}
 
                                 <div className="notion-page-scroller">
-                                    {hasPageCover &&
+                                    {/* COVER BACKGROUND */}
+                                    {/* {hasPageCover &&
                                         (pageCover || (
                                             <div className="notion-page-cover-wrapper">
                                                 <LazyImage
@@ -164,7 +165,7 @@ export const Block: React.FC<BlockProps> = (props) => {
                                                     style={pageCoverStyle}
                                                 />
                                             </div>
-                                        ))}
+                                        ))} */}
 
                                     <main
                                         className={cs(
@@ -178,9 +179,10 @@ export const Block: React.FC<BlockProps> = (props) => {
                                             bodyClassName
                                         )}
                                     >
-                                        {page_icon && (
+                                        {/* PAGE / AUTHOR ICON */}
+                                        {/* {page_icon && (
                                             <PageIcon block={block} defaultIcon={defaultPageIcon} inline={false} />
-                                        )}
+                                        )} */}
 
                                         {pageHeader}
 
@@ -201,7 +203,7 @@ export const Block: React.FC<BlockProps> = (props) => {
                                                     hasToc && 'notion-page-content-has-toc'
                                                 )}
                                             >
-                                                <article className="notion-page-content-inner">{children}</article>
+                                                <div className="notion-page-content-inner">{children}</div>
 
                                                 {hasAside && (
                                                     <PageAside

@@ -70,9 +70,10 @@ const propertyTextValue = ({ schema, pageHeader }: any, defaultFn: () => React.R
     return defaultFn();
 };
 
-export const NotionPage: React.FC<Required<types.PageProps>> = ({ site, recordMap, error, pageId }) => {
+export const NotionPage: React.FC<Required<types.PageProps>> = ({ site, recordMap, error, pageId, ...rest }) => {
     const router = useRouter();
     const lite = useSearchParam('lite');
+    console.log('PAGE NOTION', { site, recordMap, error, pageId, ...rest });
 
     const components = React.useMemo(
         () => ({
@@ -132,13 +133,13 @@ export const NotionPage: React.FC<Required<types.PageProps>> = ({ site, recordMa
 
     const title = getBlockTitle(block, recordMap) || site.name;
 
-    console.log('notion page', {
-        isDev: config.isDev,
-        title,
-        pageId,
-        rootNotionPageId: site.rootNotionPageId,
-        recordMap
-    });
+    // console.log('notion page', {
+    //     isDev: config.isDev,
+    //     title,
+    //     pageId,
+    //     rootNotionPageId: site.rootNotionPageId,
+    //     recordMap
+    // });
 
     if (!config.isServer) {
         // add important objects to the window global for easy debugging

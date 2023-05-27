@@ -36,6 +36,7 @@ const CollectionViewColumnDesc: React.FC<{
     );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CollectionViewTabs: React.FC<{
     collectionViewId: string;
     viewIds: string[];
@@ -66,6 +67,7 @@ const CollectionViewBlock: React.FC<{
     block: types.CollectionViewBlock | types.CollectionViewPageBlock;
     className?: string;
 }> = ({ block, className }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { recordMap, showCollectionViewDropdown } = useNotionContext();
     const { view_ids: viewIds } = block;
     const collectionId = getBlockCollectionId(block, recordMap) ?? '';
@@ -83,6 +85,7 @@ const CollectionViewBlock: React.FC<{
     const collectionViewId =
         (isMounted && viewIds.find((id) => id === collectionState?.collectionViewId)) || defaultCollectionViewId;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onChangeView = React.useCallback(
         (id: string) => {
             console.log('change collection view', id);
@@ -169,7 +172,7 @@ const CollectionViewBlock: React.FC<{
     return (
         <>
             <div>
-                <div>
+                {/* <div>
                     {viewIds.length > 1 && showCollectionViewDropdown && (
                         <CollectionViewTabs
                             collectionViewId={collectionViewId}
@@ -177,7 +180,7 @@ const CollectionViewBlock: React.FC<{
                             onChangeView={onChangeView}
                         />
                     )}
-                </div>
+                </div> */}
                 {showTitle && (
                     <div className="notion-collection-header">
                         <div className="notion-collection-header-title">
