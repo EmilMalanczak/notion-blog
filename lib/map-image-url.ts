@@ -1,6 +1,6 @@
 import { Block } from 'notion-types';
 
-import { defaultMapImageUrl } from 'renderer/map-image-url';
+import { defaultMapImageUrl } from '@/components/renderer/map-image-url';
 
 import { defaultPageCover, defaultPageIcon } from './config';
 
