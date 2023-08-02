@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const LinkIcon = (props) => {
+export const LinkIcon = (props: any) => {
     const { className, ...rest } = props;
     return (
         <svg className={className} {...rest} viewBox="0 0 16 16" width="16" height="16">
